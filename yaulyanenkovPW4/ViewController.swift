@@ -72,5 +72,17 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         
         return cell
     }
+    
+    func collectionView(_ collectionView: UICollectionView, contextMenuConfigurationForItemAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
+        let identifier = "\(indexPath.row)" as NSString
+        return UIContextMenuConfiguration(identifier: identifier, previewProvider: .none) {
+            _ in let deleteAction = UIAction(title: "Delete", image: UIImage(systemName: "trash"), attributes: UIMenuElement.Attributes.destructive){
+                value in self.context.delete(self.notes[indexPath.row])
+                self.saveChanges()
+            }
+            
+            return UIMenu(title: "", image: nil, children: [deleteAction])
+        }
+    }
 }
 
